@@ -1,7 +1,17 @@
-"""卫星遥测异常告警服务入口。"""
+"""服务启动入口：python -m src.service"""
+from __future__ import annotations
 
-class Service:
-    """领域服务的基础入口。"""
+import uvicorn
 
-    def __init__(self):
-        self.ready = False
+
+def main() -> None:
+    uvicorn.run(
+        "src.app:app",
+        host="0.0.0.0",
+        port=int(__import__("os").environ.get("PORT", "8080")),
+        reload=False,
+    )
+
+
+if __name__ == "__main__":
+    main()

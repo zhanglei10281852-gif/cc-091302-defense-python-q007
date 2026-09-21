@@ -10,3 +10,7 @@ coverage/
 __pycache__/
 *.py[cod]
 .DS_Store
+data/*.db
+data/*.db-wal
+data/*.db-shm
+.pytest_cache/
