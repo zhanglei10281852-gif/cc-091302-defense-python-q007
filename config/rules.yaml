@@ -1,0 +1,45 @@
+# 阈值规则：支持 PUT /rules 热更新；每次变更生成新版本并留痕
+version: "2026.09.22-a"
+defaults:
+  window_sec: 60        # 滑动窗口长度（秒）
+  min_samples: 3        # 窗口段内至少的有效样本数
+  cooldown_sec: 60      # 告警恢复/确认后的重开冷却
+  resolve_sec: 60       # 无新增违规后自动恢复时长
+points:
+  ATT.ROLL:             # 姿态-滚动角
+    window_sec: 30
+    min_samples: 3
+    levels:
+      warning:
+        when: {abs_gt: 5.0}
+        min_count: 3
+      critical:
+        when: {abs_gt: 10.0}
+        min_count: 1
+  ATT.PITCH:            # 姿态-俯仰角
+    window_sec: 30
+    min_samples: 3
+    levels:
+      warning:
+        when: {abs_gt: 5.0}
+        min_count: 3
+      critical:
+        when: {abs_gt: 10.0}
+        min_count: 1
+  ATT.RATE.Z:           # 姿态角速率，突变检测
+    window_sec: 20
+    min_samples: 2
+    levels:
+      warning:
+        when: {step_gt: 2.0}
+        min_count: 2
+      critical:
+        when: {abs_gt: 8.0}
+        min_count: 1
+  COM.RSSI:             # 通信链路信号强度（抖动参考，低等级）
+    window_sec: 60
+    min_samples: 5
+    levels:
+      info:
+        when: {lt: -95.0}
+        min_count: 5
